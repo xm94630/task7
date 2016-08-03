@@ -5,11 +5,14 @@ appDirectives.directive('chosenDirective', function($timeout) {
             'changeFunction': '=',
             'chosenData': '='
         },
+        //这个是获取模块，在link的第四个参数中使用，用来质量之间的通信，这个是指的就是那个指令的控制器内容
         require: "?ngModel",
         restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
         templateUrl: './html/directive/chosen.html',
         transclude: true,
         compile: function(tEle, tAttr, transcludeFn) {
+
+            //
             return function(scope, element, attrs, ngModel) {
                 var _defaultResult = [];
                 scope.isOpen = false;
