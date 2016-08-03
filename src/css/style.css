@@ -360,3 +360,55 @@ body a {
   line-height: 16px;
 }
 
+/*chosen*/
+.chosenBox{
+  position:relative;
+  font-size: 12px;
+  color:#666;
+}
+.chosenBox .conBox{
+  border:solid 1px #ccc;
+  height:30px;
+  line-height: 30px;
+  width:150px;
+  background: #ffc;
+}
+.chosenBox .conList{
+  background: #fff;
+  width:200px;
+  overflow:auto;
+  border:solid 1px #ccc;
+  position: absolute;
+  top:25px;
+  height: 240px;
+}
+.chosenBox .conList li{
+  height:30px;
+  line-height: 30px;
+  text-indent:1em;
+  cursor: pointer;
+}
+.chosenBox .conList li.disabled{
+  color:#ccc;
+  cursor: auto;
+}
+.chosenBox .conList li.disabled:hover{
+  background: #fff;
+}
+.chosenBox .conList li:hover{
+  background:#eee;
+}
+.chosenBox .conList .groupList li{
+  text-indent:3em;
+}
+.chosenBox .conList .groupList li:nth-child(1){
+  text-indent:1em;
+  cursor: auto;
+  color: #666;
+}
+.chosenBox .conList .groupList li:nth-child(1):hover{
+  background: #fff;
+}
+
+
+

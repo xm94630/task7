@@ -22,30 +22,34 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 			value: "0"
 		},{
 			label:"唐僧",
-			value: "1"
-		},{
-			label:"妖怪",
-			group: [
-				{
-					label:"黄袍怪",
-					value: "2"
-				},{
-					label:"红孩儿",
-					value: "3"
-				}
-			]
-		},{
-			label:"神仙",
-			group: [
-				{
-					label:"太上老君",
-					value: "4"
-				},{
-					label:"哪吒",
-					value: "5"
-				}
-			]
-		}],
+			value: "1",
+			disabled:true
+		},[
+			{
+				label:"妖怪",
+				value: "2"
+			},
+			{
+				label:"黄袍怪",
+				value: "2"
+			},{
+				label:"红孩儿",
+				value: "3"
+			}
+		]
+		,[
+			{
+				label:"神仙",
+				value: "4"
+			},{
+				label:"太上老君",
+				value: "4",
+				disabled:true
+			},{
+				label:"哪吒",
+				value: "5"
+			}
+		]],
 		selected:['2', '3'],
 		change:function(label,value){}
 	}
