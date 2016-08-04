@@ -335,6 +335,9 @@ body a {
 
 
 /*时间选择控件*/
+body{
+  overflow: hidden;
+}
 .grayBox{
   width:500px;
   text-align: left;
@@ -372,14 +375,24 @@ body a {
   line-height: 30px;
   width:150px;
   background: #ffc;
+  padding-left: 10px;
 }
-.chosenBox .conList{
+.chosenBox .downBox{
   background: #fff;
   width:200px;
+  height: 240px;
   overflow:auto;
   border:solid 1px #ccc;
   position: absolute;
-  top:25px;
+  top:31px;
+}
+.chosenBox .conList{
+  background: #fff;
+  width:100%;
+  overflow:auto;
+  /*border:solid 1px #ccc;*/
+  position: absolute;
+  top:31px;
   height: 240px;
 }
 .chosenBox .conList li{
@@ -410,5 +423,19 @@ body a {
   background: #fff;
 }
 
-
+.chosenBox .searchBox{
+  height:30px;
+  line-height: 30px;
+}
+.chosenBox .searchCon{
+  height:29px;
+  width: 100%;
+  border:none;
+  border-bottom:1px solid #ddd;
+  outline:none;
+  text-indent:1em;
+  color:#666;
+  font-family: "MicrosoftYaHei","黑体",Arial,Helvetica,sans-serif,"宋体";
+  background: #f9f9f9;
+}
 

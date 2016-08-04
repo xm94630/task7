@@ -27,7 +27,8 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 		},[
 			{
 				label:"妖怪",
-				value: "2"
+				value: "2",
+				disabled:true
 			},
 			{
 				label:"黄袍怪",
@@ -40,7 +41,8 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 		,[
 			{
 				label:"神仙",
-				value: "4"
+				value: "4",
+				disabled:true
 			},{
 				label:"太上老君",
 				value: "4",
@@ -53,5 +55,42 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 		selected:['2', '3'],
 		change:function(label,value){}
 	}
+
+
+	$scope.xxx = {
+		item1:{
+			data:[{
+				group: "none",
+				label:"爸爸",
+				value: "-1"
+			},{
+				group: "none",
+				label:"妈妈",
+				value: "-1"
+			},{
+				group: "none",
+				label:"小明",
+				value: "-1",
+				disabled:'disabled'
+			},{
+				group: "title",
+				label:"小孩子",
+				value: "-1"
+			},{
+				group: "option",
+				label:"小三",
+				value: "-1"
+			},{
+				group: "option",
+				label:"小绿",
+				value: "-1"
+			}],
+			change:function(){},
+			selected:null
+		}
+	}
+
+
+
 
 });
