@@ -84,7 +84,8 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     return Object.prototype.toString.call(obj) == '[object Array]';
                 }
 
-                function randerList(){
+                function randerList(data){
+                    angular.element(document.getElementById('conList')).html('');
                     var arr = [];
                     for(var i=0;i<data.length;i++){
                         var html ='';
@@ -115,7 +116,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     angular.element(document.getElementById('conList')).append(html);
 
                 }
-                randerList();
+                randerList(data);
 
                 angular.element(document.getElementById('conBox')).bind('click',function($event){
                     scope.$apply(function() {
@@ -135,21 +136,92 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     $event.stopPropagation();
                 });
 
-                angular.element(document.getElementById('conList')).find('li').bind('click',function($event){
+                function bindListEvent(){
+                    angular.element(document.getElementById('conList')).find('li').bind('click',function($event){
 
-                    var ele = angular.element(this);
+                        var ele = angular.element(this);
 
-                    scope.$apply(function() {
-                        if(ele.hasClass('disabled')){
-                            show = true;
-                        }else{
-                            scope.myChosen = ele.text();
-                            //scope.myChosen = ele.attr('value');
-                            scope.showList = false;
+                        scope.$apply(function() {
+                            if(ele.hasClass('disabled')){
+                                show = true;
+                            }else{
+                                scope.myChosen = ele.text();
+                                //scope.myChosen = ele.attr('value');
+                                scope.showList = false;
 
-                        }
+                            }
+                        });
                     });
-                });
+                };
+                bindListEvent();
+
+                
+
+                /*angular.element(document.querySelector('.chosenBox')).find('input').bind('change',function($event){
+
+                    l(12123123);
+                });*/
+
+
+
+                //过滤数据
+                function parseChoseData(arr,key){
+                    
+                    var newData = [];
+                    var sonArr;
+                    for(var i=0;i<arr.length;i++){
+                        if(isArray(arr[i])){
+                            sonArr = [];
+                            for(var j=0;j<arr[i].length;j++){
+
+                                if(j==0){
+
+                                    //如果类别符合搜索，则列出全部子类
+                                    if(key && arr[i][0].label.indexOf(key)!=-1){
+                                        sonArr = arr[i];
+                                        break;
+                                    }
+
+                                    sonArr.push(arr[i][j]);
+                                }else{
+                                    var myData = arr[i][j];
+                                    var label = myData.label;
+                                    if(key && label.indexOf(key)!=-1){
+                                        l('111')
+                                        sonArr.push(arr[i][j]);
+                                    }
+                                }
+
+                            }
+                            if(sonArr.length>1){
+                                newData.push(sonArr);
+                            }
+                            
+                        }else{
+                            var myData = arr[i];
+                            var label = myData.label;
+                            if(key && label.indexOf(key)!=-1){
+                                newData.push(arr[i]);
+                            }
+                        }
+                    }
+
+                    return newData;
+
+                }
+
+                scope.inputChange = function(){
+                    var v = scope.searchCon;
+                    if(v!=''){
+                        var newData = parseChoseData(data,v);
+                        randerList(newData);
+                        bindListEvent();
+                    }else{
+                        var newData = data;
+                        randerList(newData);
+                        bindListEvent();
+                    }
+                }
 
 
             };

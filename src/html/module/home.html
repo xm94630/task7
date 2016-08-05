@@ -1,5 +1,5 @@
 <div class="FCenter PD20">
-    <div class="FS12">客官，我是chosen，您觉得怎么样？</div>
+    <div class="FS12">欢迎来到全民超神，请选择你要使用的角色！</div>
 </div>
 
 <!-- <div chosen-directive chosen-data="xxx.item1.data" change-function="xxx.item1.change" set-selected="xxx.item1.selected" is-have-search="true" class="myOption" is-mulit="true"></div> -->
@@ -31,6 +31,53 @@
 <br>
 <div class="grayBox">
 	<pre class="">
-		使用方法:-
+		使用方法:
+		$scope.chosendata = {
+			data:[{
+				label:"孙悟空",
+				value: "0"
+			},{
+				label:"太阳神",
+				value: "1",
+				disabled:true
+			},[
+				{
+					label:"妖怪",
+					value: "2",
+					disabled:true
+				},{
+					label:"孙猴子",
+					value: "2"
+				},{
+					label:"妖怪王",
+					value: "2"
+				},{
+					label:"神仙杀手",
+					value: "2"
+				},{
+					label:"红孩儿",
+					value: "3"
+				}
+			]
+			,[
+				{
+					label:"神仙",
+					value: "4",
+					disabled:true
+				},{
+					label:"太上老君",
+					value: "4",
+					disabled:true
+				},{
+					label:"太白金星",
+					value: "5"
+				},{
+					label:"孙大圣",
+					value: "5"
+				}
+			]],
+			selected:['2'],
+			change:function(label,value){}
+		}
 	</pre>
 </div>

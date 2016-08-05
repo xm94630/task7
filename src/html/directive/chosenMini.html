@@ -2,7 +2,7 @@
 	<div class="conBox" id="conBox">{{myChosen}}</div>
 	<div class="downBox" id="downBox" ng-show='showList'>
 		<div class="searchBox">
-			<input type="text" class="searchCon" ng-model='searchCon' placeholder="搜索">
+			<input type="text" class="searchCon" ng-model="searchCon"placeholder="搜索" ng-change="inputChange()" ng-focus="xxx">
 		</div>
 		<ul class="conList" id="conList">
 			<!-- <li>123</li>

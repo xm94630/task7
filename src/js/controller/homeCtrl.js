@@ -17,11 +17,15 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 
 	//这部分数据是传递给指令用的，用来作为指令的参数
 	$scope.chosendata = {
-		data:[{
+		data:[/*{
+				label:"选择",
+				value: "2",
+				disabled:true
+		},*/{
 			label:"孙悟空",
 			value: "0"
 		},{
-			label:"唐僧",
+			label:"太阳神",
 			value: "1",
 			disabled:true
 		},[
@@ -29,9 +33,14 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 				label:"妖怪",
 				value: "2",
 				disabled:true
-			},
-			{
-				label:"黄袍怪",
+			},{
+				label:"孙猴子",
+				value: "2"
+			},{
+				label:"妖怪王",
+				value: "2"
+			},{
+				label:"神仙杀手",
 				value: "2"
 			},{
 				label:"红孩儿",
@@ -48,7 +57,10 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 				value: "4",
 				disabled:true
 			},{
-				label:"哪吒",
+				label:"太白金星",
+				value: "5"
+			},{
+				label:"孙大圣",
 				value: "5"
 			}
 		]],
