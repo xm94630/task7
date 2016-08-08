@@ -51,10 +51,6 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
             return function(scope, element, attrs, ngModel) {
 
-            	l('==>');
-            	//居然是空的
-            	l(ngModel);
-
                 //获取双向绑定的数据
                 var data        = scope.chosenData;
                 var selectedArr = scope.setSelected;
@@ -71,14 +67,9 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 });
 
                 //默认下拉
-                scope.showList = true;
+                scope.showList = false;
                 scope.myChosen = '-';
                 scope.searchCon = ''
-
-                l(data)
-                l(selectedArr)
-                l(changeFun)
-                l('-->')
 
                 var isArray = Array.isArray || function(obj){
                     return Object.prototype.toString.call(obj) == '[object Array]';
@@ -111,10 +102,6 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                             if(data[i].disabled){
                                 myClassArr.push('disabled');
                             }
-
-                            l(scope.chosenData)
-                            l(data[i].value)
-                            l(selectedArr[0])
 
                             if(data[i].value==selectedArr[0]){
                                 myClassArr.push('active');

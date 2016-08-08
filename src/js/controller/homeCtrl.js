@@ -26,12 +26,10 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 			value: "0"
 		},{
 			label:"太阳神",
-			value: "1",
-			disabled:true
+			value: "1"
 		},[
 			{
-				label:"妖怪",
-				disabled:true
+				label:"妖怪"
 			},{
 				label:"孙猴子",
 				value: "2"
@@ -43,13 +41,13 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 				value: "4"
 			},{
 				label:"红孩儿",
-				value: "5"
+				value: "5",
+				disabled:true
 			}
 		]
 		,[
 			{
-				label:"神仙",
-				disabled:true
+				label:"神仙"
 			},{
 				label:"太上老君",
 				value: "6",
