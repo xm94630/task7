@@ -409,8 +409,11 @@ body{
 .chosenBox .conList li.disabled:hover{
   background: #fff;
 }
+.chosenBox .conList li.active{
+  background: #f3f3f3;
+}
 .chosenBox .conList li:hover{
-  background:#eee;
+  background: #ddf0fd;
 }
 .chosenBox .conList .groupList li{
   text-indent:3em;
@@ -439,4 +442,5 @@ body{
   font-family: "MicrosoftYaHei","黑体",Arial,Helvetica,sans-serif,"宋体";
   background: #f9f9f9;
 }
+
 

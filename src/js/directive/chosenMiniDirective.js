@@ -71,7 +71,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 });
 
                 //默认下拉
-                scope.showList = false;
+                scope.showList = true;
                 scope.myChosen = '-';
                 scope.searchCon = ''
 
@@ -84,6 +84,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     return Object.prototype.toString.call(obj) == '[object Array]';
                 }
 
+                //渲染列表
                 function randerList(data){
                     angular.element(document.getElementById('conList')).html('');
                     var arr = [];
@@ -92,28 +93,44 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                         if(isArray(data[i])){
                             html+='<ul class="groupList">';
                             for(var j=0;j<data[i].length;j++){
+                                var myClassArr = [];
                                 if(data[i][j].disabled){
-                                    var myClass = 'class="disabled"';
-                                }else{
-                                    var myClass ='';
+                                    myClassArr.push('disabled');
                                 }
-                                html+='<li value="'+ data[i][j].value +'" '+myClass+'>'+data[i][j].label+'</li>'
+                                if(data[i][j].value==selectedArr[0]){
+                                    myClassArr.push('active');
+                                    scope.myChosen = data[i][j].label;
+                                }
+                                myClass = myClassArr.join(' ');
+                                html+='<li value="'+ data[i][j].value +'" class="'+myClass+'">'+data[i][j].label+'</li>'
                             }
                             html+='</ul>';
                             arr.push(html);
                         }else{
+                            var myClassArr = [];
                             if(data[i].disabled){
-                                var myClass = 'class="disabled"';
-                            }else{
-                                var myClass ='';
+                                myClassArr.push('disabled');
                             }
-                            html='<li value="'+ data[i].value +'" '+myClass+'>'+data[i].label+'</li>'
+
+                            l(scope.chosenData)
+                            l(data[i].value)
+                            l(selectedArr[0])
+
+                            if(data[i].value==selectedArr[0]){
+                                myClassArr.push('active');
+                                scope.myChosen = data[i].label;
+                            }
+                            myClass = myClassArr.join(' ');
+                            html='<li value="'+ data[i].value +'" class="'+ myClass +'">'+data[i].label+'</li>'
                             arr.push(html);
                         }
                     }
                     html = arr.join('');
                     //注意angularjs中的元素选择器的用法，不像$一样好用
                     angular.element(document.getElementById('conList')).append(html);
+
+                    //绑定
+                    bindListEvent();
 
                 }
                 randerList(data);
@@ -143,27 +160,25 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                         scope.$apply(function() {
                             if(ele.hasClass('disabled')){
-                                show = true;
+
                             }else{
-                                scope.myChosen = ele.text();
-                                //scope.myChosen = ele.attr('value');
+
+                                //隐藏列表、清空搜索
                                 scope.showList = false;
+                                scope.searchCon = '';
+
+                                //不要犯低级错误
+                                //scope.chosenData.selected = [ele.val()];
+                                selectedArr[0] = ele.val();
+                                randerList(scope.chosenData);
 
                             }
                         });
                     });
                 };
-                bindListEvent();
-
-                
-
-                /*angular.element(document.querySelector('.chosenBox')).find('input').bind('change',function($event){
-
-                    l(12123123);
-                });*/
 
 
-
+        
                 //过滤数据
                 function parseChoseData(arr,key){
                     
@@ -210,16 +225,15 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                 }
 
+                //搜索
                 scope.inputChange = function(){
                     var v = scope.searchCon;
                     if(v!=''){
                         var newData = parseChoseData(data,v);
                         randerList(newData);
-                        bindListEvent();
                     }else{
                         var newData = data;
                         randerList(newData);
-                        bindListEvent();
                     }
                 }
 

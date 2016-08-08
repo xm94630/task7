@@ -31,40 +31,38 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 		},[
 			{
 				label:"妖怪",
-				value: "2",
 				disabled:true
 			},{
 				label:"孙猴子",
 				value: "2"
 			},{
 				label:"妖怪王",
-				value: "2"
+				value: "3"
 			},{
 				label:"神仙杀手",
-				value: "2"
+				value: "4"
 			},{
 				label:"红孩儿",
-				value: "3"
+				value: "5"
 			}
 		]
 		,[
 			{
 				label:"神仙",
-				value: "4",
 				disabled:true
 			},{
 				label:"太上老君",
-				value: "4",
+				value: "6",
 				disabled:true
 			},{
 				label:"太白金星",
-				value: "5"
+				value: "7"
 			},{
 				label:"孙大圣",
-				value: "5"
+				value: "8"
 			}
 		]],
-		selected:['2', '3'],
+		selected:['2'],
 		change:function(label,value){}
 	}
 
