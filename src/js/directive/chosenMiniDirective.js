@@ -56,9 +56,14 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 var selectedArr = scope.setSelected;
                 var changeFun   = scope.changeFunction;
 
+                var isArray = Array.isArray || function(obj){
+                    return Object.prototype.toString.call(obj) == '[object Array]';
+                }
+
+
                 //获取插件的配置参数
                 scope.chosenSearch = !attrs['isHaveSearch'];
-                scope.isSingle = !attrs['isMulit'] || false;
+                scope.isMulit = attrs['isMulit'] || false;
 
                 //这部分是对“指令标签”中的子集DOM的引用，和处理
                 transcludeFn(scope, function(clone){
@@ -66,13 +71,19 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 	return;
                 });
 
+                //如果数据不存在
+                if(!isArray(data) || !data || data.length==0){
+                    data = scope.chosenData = [{label:'无数据',disabled:true}];
+                }
+
                 //默认下拉
                 scope.showList = false;
-                scope.myChosen = '-';
-                scope.searchCon = ''
-
-                var isArray = Array.isArray || function(obj){
-                    return Object.prototype.toString.call(obj) == '[object Array]';
+                //默认搜索内容
+                scope.searchCon = '';
+                //默认选中显示第一个label值
+                if(!selectedArr){
+                    selectedArr = [];
+                    scope.myChosen = data[0].label;
                 }
 
                 //渲染列表
@@ -88,7 +99,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                                 if(data[i][j].disabled){
                                     myClassArr.push('disabled');
                                 }
-                                if(data[i][j].value==selectedArr[0]){
+                                if(selectedArr[0]!=undefined && data[i][j].value==selectedArr[0]){
                                     myClassArr.push('active');
                                     scope.myChosen = data[i][j].label;
                                 }
@@ -103,7 +114,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                                 myClassArr.push('disabled');
                             }
 
-                            if(data[i].value==selectedArr[0]){
+                            if(selectedArr[0]!=undefined  &&  data[i].value==selectedArr[0]){
                                 myClassArr.push('active');
                                 scope.myChosen = data[i].label;
                             }
@@ -124,8 +135,13 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                 angular.element(document.getElementById('conBox')).bind('click',function($event){
                     scope.$apply(function() {
+                        //显示下拉
                         scope.showList = true;
                     });
+                    //下拉框的位置修正
+                    var height = angular.element(document.getElementById('conBoxMulti')).css('height');
+                    angular.element(document.getElementById('downBox')).css('top',height);
+                    
 
                     $event.stopPropagation();
                 });

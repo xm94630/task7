@@ -440,7 +440,15 @@ body{
   text-indent:1em;
   color:#666;
   font-family: "MicrosoftYaHei","黑体",Arial,Helvetica,sans-serif,"宋体";
-  background: #f9f9f9;
+}
+
+.chosenBox .conBoxMulti{
+  border:solid 1px #ccc;
+  height:30px;
+  line-height: 30px;
+  width:150px;
+  background: #ffc;
+  padding-left: 10px;
 }
 
 
