@@ -86,8 +86,24 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     scope.myChosen = data[0].label;
                 }
 
+                function contains(arr, obj) {
+                  var i = arr.length;
+                  while (i--) {
+                    if (arr[i] === obj) {
+                      return true;
+                    }
+                  }
+                  return false;
+                }
+
                 //渲染列表
                 function randerList(data){
+
+
+                    l('--->')
+                    l(selectedArr)
+
+
                     angular.element(document.getElementById('conList')).html('');
                     var arr = [];
                     for(var i=0;i<data.length;i++){
@@ -99,10 +115,25 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                                 if(data[i][j].disabled){
                                     myClassArr.push('disabled');
                                 }
-                                if(selectedArr[0]!=undefined && data[i][j].value==selectedArr[0]){
-                                    myClassArr.push('active');
-                                    scope.myChosen = data[i][j].label;
+
+                                //多选
+                                if(scope.isMulit){
+
+                                    for(var x=0;x<selectedArr.length;x++){
+                                        if(data[i][j].value==selectedArr[x]){
+                                            myClassArr.push('active');
+                                            scope.myChosen = data[i][j].label;
+                                        }
+                                    }
+
+                                //单选
+                                }else{
+                                    if(selectedArr[0]!=undefined && data[i][j].value==selectedArr[0]){
+                                        myClassArr.push('active');
+                                        scope.myChosen = data[i][j].label;
+                                    }
                                 }
+
                                 myClass = myClassArr.join(' ');
                                 html+='<li value="'+ data[i][j].value +'" class="'+myClass+'">'+data[i][j].label+'</li>'
                             }
@@ -114,10 +145,22 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                                 myClassArr.push('disabled');
                             }
 
-                            if(selectedArr[0]!=undefined  &&  data[i].value==selectedArr[0]){
-                                myClassArr.push('active');
-                                scope.myChosen = data[i].label;
+                            //多选
+                            if(scope.isMulit){
+                                for(var x=0;x<selectedArr.length;x++){
+                                    if(data[i].value==selectedArr[x]){
+                                       myClassArr.push('active');
+                                       scope.myChosen = data[i].label;
+                                    }
+                                }
+                            //单选
+                            }else{
+                                if(selectedArr[0]!=undefined  &&  data[i].value==selectedArr[0]){
+                                    myClassArr.push('active');
+                                    scope.myChosen = data[i].label;
+                                }
                             }
+
                             myClass = myClassArr.join(' ');
                             html='<li value="'+ data[i].value +'" class="'+ myClass +'">'+data[i].label+'</li>'
                             arr.push(html);
@@ -166,14 +209,34 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                             }else{
 
-                                //隐藏列表、清空搜索
-                                scope.showList = false;
-                                scope.searchCon = '';
+                                //多选
+                                if(scope.isMulit){
 
-                                //不要犯低级错误
-                                //scope.chosenData.selected = [ele.val()];
-                                selectedArr[0] = ele.val();
-                                randerList(scope.chosenData);
+                                    //隐藏列表
+                                    scope.showList = false;
+                                    //清空搜索
+                                    scope.searchCon = '';
+                                    //更新数据模型中的选中数组
+
+                                    if(!contains(selectedArr,ele.val())){
+                                        selectedArr.push(ele.val());
+                                    }
+
+                                    //重新渲染
+                                    randerList(scope.chosenData);
+
+                                //单选
+                                }else{
+                                    //隐藏列表
+                                    scope.showList = false;
+                                    //清空搜索
+                                    scope.searchCon = '';
+                                    //更新数据模型中的选中数组
+                                    selectedArr[0] = ele.val();
+                                    //重新渲染
+                                    randerList(scope.chosenData);
+                                }
+
 
                             }
                         });
