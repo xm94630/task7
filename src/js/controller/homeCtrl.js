@@ -59,7 +59,7 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 				value: "8"
 			}
 		]],
-		selected:['1'],
+		selected:['0','1','2','3','4'],
 		change:function(label,value){}
 	}
 

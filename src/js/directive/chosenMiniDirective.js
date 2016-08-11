@@ -99,15 +99,12 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 //渲染列表
                 function randerList(data){
 
-
-                    l('--->')
-                    l(selectedArr)
-
-
                     angular.element(document.getElementById('conList')).html('');
                     var arr = [];
                     for(var i=0;i<data.length;i++){
                         var html ='';
+
+                        //这部分是对于下拉列表的渲染
                         if(isArray(data[i])){
                             html+='<ul class="groupList">';
                             for(var j=0;j<data[i].length;j++){
@@ -116,6 +113,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                                     myClassArr.push('disabled');
                                 }
 
+                                //渲染下拉列表
                                 //多选
                                 if(scope.isMulit){
 
@@ -176,6 +174,39 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 }
                 randerList(data);
 
+
+                //通过value值获取name
+                function getName(v){
+                    for(var i=0;i<data.length;i++){
+                        if(isArray(data[i])){
+                            for(var j=0;j<data.length;j++){
+                               if(data[i][j].value == v){
+                                   return data[i][j].label;
+                               }
+                            }
+                        }else{
+                            if(data[i].value == v){
+                                return data[i].label;
+                            }
+                        }
+                    }
+                }
+
+                function randerMultifyBox(data){
+
+                    var html ='';
+                    var ele = angular.element(document.getElementById('conBoxMulti'));
+                    for(var i=0;i<data.length;i++){
+                        var name = getName(data[i]);
+                        html += '<span class="nameBox">'+name+' X</span>';
+                    }
+                    ele.append(html);
+
+                }
+                randerMultifyBox(selectedArr);
+
+
+
                 angular.element(document.getElementById('conBox')).bind('click',function($event){
                     scope.$apply(function() {
                         //显示下拉
@@ -209,6 +240,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                             }else{
 
+                                //点击列表选项
                                 //多选
                                 if(scope.isMulit){
 
