@@ -63,13 +63,20 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                 //获取插件的配置参数
                 scope.chosenSearch = !attrs['isHaveSearch'];
-                scope.isMulit = attrs['isMulit'] || false;
+                scope.isMulit = (attrs['isMulit']&&attrs['isMulit']!='false') || false;
+
+                if(scope.isMulit){
+                    scope.showConBox = false;
+                    scope.showConBoxMulti = true;
+                }else{
+                    scope.showConBox = true;
+                    scope.showConBoxMulti = false;
+                }
 
                 //这部分是对“指令标签”中的子集DOM的引用，和处理
-                transcludeFn(scope, function(clone){
-                	//l(clone);
+                /*transcludeFn(scope, function(clone){
                 	return;
-                });
+                });*/
 
                 //如果数据不存在
                 if(!isArray(data) || !data || data.length==0){
@@ -89,7 +96,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 function contains(arr, obj) {
                   var i = arr.length;
                   while (i--) {
-                    if (arr[i] === obj) {
+                    if (arr[i] == obj) {
                       return true;
                     }
                   }
@@ -175,32 +182,54 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 randerList(data);
 
 
-                //通过value值获取name
-                function getName(v){
+                //通过value值获取name 或者值
+                function getLabelOrValue(v,key){
                     for(var i=0;i<data.length;i++){
                         if(isArray(data[i])){
                             for(var j=0;j<data.length;j++){
                                if(data[i][j].value == v){
-                                   return data[i][j].label;
+                                   return data[i][j][key];
                                }
                             }
                         }else{
                             if(data[i].value == v){
-                                return data[i].label;
+                                return data[i][key];
                             }
                         }
                     }
                 }
 
                 function randerMultifyBox(data){
-
                     var html ='';
                     var ele = angular.element(document.getElementById('conBoxMulti'));
                     for(var i=0;i<data.length;i++){
-                        var name = getName(data[i]);
-                        html += '<span class="nameBox">'+name+' X</span>';
+                        var label = getLabelOrValue(data[i],'label');
+                        var value = getLabelOrValue(data[i],'value');
+                        html += '<span class="nameBox" myLabel="'+label+'" myValue="'+value+'">'+label+' <i>X</i></span>';
                     }
-                    ele.append(html);
+
+                    //添加元素
+                    ele.html('').append(html);
+                    //绑定事件
+                    ele.find('i').bind('click',function(){
+                        var thisEle = angular.element(this).parent();
+
+                        var myValue = thisEle.attr('myValue');
+                        //从数组中删除
+                        for(var i=0;i<data.length;i++){
+                            if(myValue == data[i]){
+                                data.splice(i,1);
+                            }
+                        }
+
+                        randerMultifyBox(data);
+                        randerList(scope.chosenData);
+
+
+                    });
+
+
+                    
 
                 }
                 randerMultifyBox(selectedArr);
@@ -215,8 +244,19 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     //下拉框的位置修正
                     var height = angular.element(document.getElementById('conBoxMulti')).css('height');
                     angular.element(document.getElementById('downBox')).css('top',height);
-                    
+                
+                    $event.stopPropagation();
+                });
 
+                angular.element(document.getElementById('conBoxMulti')).bind('click',function($event){
+                    scope.$apply(function() {
+                        //显示下拉
+                        scope.showList = true;
+                    });
+                    //下拉框的位置修正
+                    var height = angular.element(document.getElementById('conBoxMulti')).css('height');
+                    angular.element(document.getElementById('downBox')).css('top',height);
+                
                     $event.stopPropagation();
                 });
 
@@ -249,13 +289,20 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                                     //清空搜索
                                     scope.searchCon = '';
                                     //更新数据模型中的选中数组
-
                                     if(!contains(selectedArr,ele.val())){
                                         selectedArr.push(ele.val());
+                                    }else{
+                                        //从数组中删除
+                                        for(var i=0;i<selectedArr.length;i++){
+                                            if(ele.val() == selectedArr[i]){
+                                                selectedArr.splice(i,1);
+                                            }
+                                        }
                                     }
 
                                     //重新渲染
                                     randerList(scope.chosenData);
+                                    randerMultifyBox(selectedArr);
 
                                 //单选
                                 }else{
@@ -267,6 +314,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                                     selectedArr[0] = ele.val();
                                     //重新渲染
                                     randerList(scope.chosenData);
+                                    randerMultifyBox(selectedArr);
                                 }
 
 

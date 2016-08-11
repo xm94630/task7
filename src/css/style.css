@@ -447,6 +447,7 @@ body{
   line-height: 30px;
   background: #ffc;
   padding-left: 10px;
+  min-height: 32px;
 }
 
 .chosenBox .nameBox{

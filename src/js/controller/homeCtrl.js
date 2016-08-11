@@ -64,39 +64,49 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 	}
 
 
-	$scope.xxx = {
-		item1:{
-			data:[{
-				group: "none",
-				label:"爸爸",
-				value: "-1"
+	$scope.chosendata2 = {
+		data:[{
+			label:"孙悟空",
+			value: "0"
+		},{
+			label:"太阳神",
+			value: "1"
+		},[
+			{
+				label:"妖怪"
 			},{
-				group: "none",
-				label:"妈妈",
-				value: "-1"
+				label:"孙猴子",
+				value: "2"
 			},{
-				group: "none",
-				label:"小明",
-				value: "-1",
-				disabled:'disabled'
+				label:"妖怪王",
+				value: "3"
 			},{
-				group: "title",
-				label:"小孩子",
-				value: "-1"
+				label:"神仙杀手",
+				value: "4"
 			},{
-				group: "option",
-				label:"小三",
-				value: "-1"
+				label:"红孩儿",
+				value: "5",
+				disabled:true
+			}
+		]
+		,[
+			{
+				label:"神仙"
 			},{
-				group: "option",
-				label:"小绿",
-				value: "-1"
-			}],
-			change:function(){},
-			selected:null
-		}
+				label:"太上老君",
+				value: "6",
+				disabled:true
+			},{
+				label:"太白金星",
+				value: "7"
+			},{
+				label:"孙大圣",
+				value: "8"
+			}
+		]],
+		selected:['3'],
+		change:function(label,value){}
 	}
-
 
 
 
