@@ -1,31 +1,3 @@
-/*appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
-	return {
-	    restrict: 'AE',
-	    replace: 'true',
-	    templateUrl: './html/directive/chosenMini.html',
-	    scope: {
-	    	'chosenData'    : '=',
-	        'setSelected'   : '=',
-	        'changeFunction': '='
-	    },
-	    controller:function($scope){
-	    },
-	    link:function(scope,element,attrs){
-
-	    	//获取双向绑定的数据
-	    	var data        = scope.chosenData;
-	    	var selectedArr = scope.setSelected;
-	    	var changeFun   = scope.changeFunction;
-
-	    	//获取插件的配置参数
-	    	scope.chosenSearch = !attrs['isHaveSearch'];
-	    	scope.isSingle = !attrs['isMulit'] || false;
-
-	    }
-	};
-});*/
-
-
 appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
     return {
     	restrict: 'AE',
@@ -51,48 +23,26 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
             return function(scope, element, attrs, ngModel) {
 
+                //这部分是对“指令标签”中的子集DOM的引用，和处理
+                /*transcludeFn(scope, function(clone){
+                    return;
+                });*/
+
+                
+                /******************************
+                 * 定义
+                 ******************************/
+
                 //获取双向绑定的数据
                 var data        = scope.chosenData;
                 var selectedArr = scope.setSelected;
                 var changeFun   = scope.changeFunction;
 
+                //自定义函数
                 var isArray = Array.isArray || function(obj){
                     return Object.prototype.toString.call(obj) == '[object Array]';
                 }
-
-
-                //获取插件的配置参数
-                scope.chosenSearch = !attrs['isHaveSearch'];
-                scope.isMulit = (attrs['isMulit']&&attrs['isMulit']!='false') || false;
-
-                if(scope.isMulit){
-                    scope.showConBox = false;
-                    scope.showConBoxMulti = true;
-                }else{
-                    scope.showConBox = true;
-                    scope.showConBoxMulti = false;
-                }
-
-                //这部分是对“指令标签”中的子集DOM的引用，和处理
-                /*transcludeFn(scope, function(clone){
-                	return;
-                });*/
-
-                //如果数据不存在
-                if(!isArray(data) || !data || data.length==0){
-                    data = scope.chosenData = [{label:'无数据',disabled:true}];
-                }
-
-                //默认下拉
-                scope.showList = false;
-                //默认搜索内容
-                scope.searchCon = '';
-                //默认选中显示第一个label值
-                if(!selectedArr){
-                    selectedArr = [];
-                    scope.myChosen = data[0].label;
-                }
-
+                
                 function contains(arr, obj) {
                   var i = arr.length;
                   while (i--) {
@@ -102,6 +52,94 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                   }
                   return false;
                 }
+                
+                //通过value值获取name 或者值
+                function getLabelOrValue(v,key){
+                    for(var i=0;i<data.length;i++){
+                        if(isArray(data[i])){
+                            for(var j=0;j<data.length;j++){
+                               if(data[i][j].value == v){
+                                   return data[i][j][key];
+                               }
+                            }
+                        }else{
+                            if(data[i].value == v){
+                                return data[i][key];
+                            }
+                        }
+                    }
+                }
+
+
+
+                /******************************
+                 * 初始配置
+                 ******************************/
+
+                //获取插件的配置参数
+                scope.chosenSearch = !attrs['isHaveSearch'];
+                scope.isMulit = (attrs['isMulit']&&attrs['isMulit']!='false') || false;
+
+                //多选和单选的框框UI不一样
+                if(scope.isMulit){
+                    scope.showConBox = false;
+                    scope.showConBoxMulti = true;
+                }else{
+                    scope.showConBox = true;
+                    scope.showConBoxMulti = false;
+                }
+                
+                //默认下拉为隐藏
+                scope.showList = false;
+                
+                //默认搜索内容
+                scope.searchCon = '';
+                
+                //默认选中显示第一个label值
+                if(!selectedArr){
+                    selectedArr = [];
+                    scope.myChosen = data[0].label;
+                }
+
+                //如果数据不存在
+                if(!isArray(data) || !data || data.length==0){
+                    data = scope.chosenData = [{label:'无数据',disabled:true}];
+                }
+
+
+                /******************************
+                 * 事件绑定、事件回调
+                 ******************************/
+
+                //点击其他收回下拉
+                angular.element(document.getElementsByTagName('body')).bind('click',function($event){
+                    scope.$apply(function() {
+                        scope.showList = false;
+                    });
+                });
+
+                //点击内容框展开下拉
+                scope.showDownBox = function($event){
+                    //显示下拉
+                    scope.showList = true;
+                    //阻止事件上溯
+                    $event.stopPropagation();
+                    //下拉框的位置修正
+                    /*var height = angular.element(document.getElementById('conBoxMulti')).css('height');
+                    angular.element(document.getElementById('downBox')).css('top',height);*/
+                }
+                
+
+
+                /******************************
+                 * 渲染
+                 ******************************/
+                
+                //渲染列表
+                randerList(data);
+                
+                //渲染复选的框框
+                randerMultifyBox(selectedArr);
 
                 //渲染列表
                 function randerList(data){
@@ -179,26 +217,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     bindListEvent();
 
                 }
-                randerList(data);
-
-
-                //通过value值获取name 或者值
-                function getLabelOrValue(v,key){
-                    for(var i=0;i<data.length;i++){
-                        if(isArray(data[i])){
-                            for(var j=0;j<data.length;j++){
-                               if(data[i][j].value == v){
-                                   return data[i][j][key];
-                               }
-                            }
-                        }else{
-                            if(data[i].value == v){
-                                return data[i][key];
-                            }
-                        }
-                    }
-                }
-
+                
                 function randerMultifyBox(data){
                     var html ='';
                     var ele = angular.element(document.getElementById('conBoxMulti'));
@@ -224,51 +243,14 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                         randerMultifyBox(data);
                         randerList(scope.chosenData);
-
-
                     });
-
-
-                    
 
                 }
-                randerMultifyBox(selectedArr);
-
-
-
-                angular.element(document.getElementById('conBox')).bind('click',function($event){
-                    scope.$apply(function() {
-                        //显示下拉
-                        scope.showList = true;
-                    });
-                    //下拉框的位置修正
-                    var height = angular.element(document.getElementById('conBoxMulti')).css('height');
-                    angular.element(document.getElementById('downBox')).css('top',height);
                 
-                    $event.stopPropagation();
-                });
 
-                angular.element(document.getElementById('conBoxMulti')).bind('click',function($event){
-                    scope.$apply(function() {
-                        //显示下拉
-                        scope.showList = true;
-                    });
-                    //下拉框的位置修正
-                    var height = angular.element(document.getElementById('conBoxMulti')).css('height');
-                    angular.element(document.getElementById('downBox')).css('top',height);
+
                 
-                    $event.stopPropagation();
-                });
 
-                angular.element(document.getElementsByTagName('body')).bind('click',function($event){
-                    scope.$apply(function() {
-                        scope.showList = false;
-                    });
-                });
-
-                angular.element(document.getElementById('downBox')).bind('click',function($event){
-                    $event.stopPropagation();
-                });
 
                 function bindListEvent(){
                     angular.element(document.getElementById('conList')).find('li').bind('click',function($event){
