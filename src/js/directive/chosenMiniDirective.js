@@ -42,6 +42,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 var isArray = Array.isArray || function(obj){
                     return Object.prototype.toString.call(obj) == '[object Array]';
                 }
+                scope.isArray = isArray;
                 
                 function contains(arr, obj) {
                   var i = arr.length;
@@ -90,7 +91,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 }
                 
                 //默认下拉为隐藏
-                scope.showList = false;
+                scope.showList = true;
                 
                 //默认搜索内容
                 scope.searchCon = '';
@@ -112,11 +113,11 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                  ******************************/
 
                 //点击其他收回下拉
-                angular.element(document.getElementsByTagName('body')).bind('click',function($event){
+                /*angular.element(document.getElementsByTagName('body')).bind('click',function($event){
                     scope.$apply(function() {
                         scope.showList = false;
                     });
-                });
+                });*/
 
                 //点击内容框展开下拉
                 scope.showDownBox = function($event){
@@ -136,7 +137,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                  ******************************/
                 
                 //渲染列表
-                randerList(data);
+                //randerList(data);
                 
                 //渲染复选的框框
                 randerMultifyBox(selectedArr);
@@ -218,6 +219,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                 }
                 
+                //渲染复选的框框
                 function randerMultifyBox(data){
                     var html ='';
                     var ele = angular.element(document.getElementById('conBoxMulti'));

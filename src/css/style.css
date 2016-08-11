@@ -342,7 +342,7 @@ body{
   width:500px;
   text-align: left;
   margin:0 auto;
-  background: #f3f3f3;
+  background: #666;
   padding:10px;
 }
 .myOption{
@@ -370,93 +370,75 @@ body{
   color:#666;
 }
 .chosenBox .conBox{
-  border:solid 1px #ccc;
+  width:100px;
   height:30px;
-  line-height: 30px;
-  width:150px;
-  background: #ffc;
-  padding-left: 10px;
+  background:red;
 }
 .chosenBox .downBox{
-  background: #fff;
-  width:200px;
-  /*overflow:auto;*/
-  border:solid 1px #ccc;
-  position: absolute;
-  top:31px;
 }
 .chosenBox .conList{
-  background: #fff;
-  width:100%;
-  max-height: 240px;
-  overflow:auto;
-  border:solid 1px #ccc;
-  border-top:none;
-  position: absolute;
-  top:31px;
-  left: -1px;
 }
 .chosenBox .conList li{
-  height:30px;
-  line-height: 30px;
-  text-indent:1em;
+  text-indent: 1em;
   cursor: pointer;
-}
-.chosenBox .conList li.disabled{
-  color:#ccc;
-  cursor: auto;
-}
-.chosenBox .conList li.disabled:hover{
   background: #fff;
+  width:100%;
+  line-height: 32px;
+  border-bottom: solid 1px #eee;
 }
 .chosenBox .conList li.active{
-  background: #f3f3f3;
+  background: #f6f6f6;
+}
+.chosenBox .conList li.disable{
+  color:#ccc;
+}
+.chosenBox .conList li.disable:hover{
+  background:#fff;
 }
 .chosenBox .conList li:hover{
-  background: #ddf0fd;
+  background: #DDF0ED;
+}
+.chosenBox .conList li ul li:nth-child(1){
+  text-indent: 1em;
+  cursor: auto;
+  font-weight: bold;
+  font-style:italic;
+}
+.chosenBox .conList li ul li{
+  text-indent: 3em;
+}
+.chosenBox .conList li ul li:last-child{
+  border-bottom: none;
+}
+
+
+
+
+
+
+
+
+
+
+/*.chosenBox .conList li.disabled{
+}
+.chosenBox .conList li.disabled:hover{
+}
+.chosenBox .conList li.active{
+}
+.chosenBox .conList li:hover{
 }
 .chosenBox .conList .groupList li{
-  text-indent:3em;
 }
 .chosenBox .conList .groupList li:nth-child(1){
-  text-indent:1em;
-  cursor: auto;
-  color: #666;
 }
 .chosenBox .conList .groupList li:nth-child(1):hover{
-  background: #fff;
 }
-
 .chosenBox .searchBox{
-  height:30px;
-  line-height: 30px;
 }
 .chosenBox .searchCon{
-  height:29px;
-  width: 100%;
-  border:none;
-  border-bottom:1px solid #ddd;
-  outline:none;
-  text-indent:1em;
-  color:#666;
-  font-family: "MicrosoftYaHei","黑体",Arial,Helvetica,sans-serif,"宋体";
 }
-
 .chosenBox .conBoxMulti{
-  border:solid 1px #ccc;
-  line-height: 30px;
-  background: #ffc;
-  padding-left: 10px;
-  min-height: 32px;
 }
-
 .chosenBox .nameBox{
-  background: #666;
-  color:#fff;
-  cursor: pointer;
-  padding: 2px 5px;
-  margin-right: 5px;
-  display: inline-block;
-  height:16px;
-  line-height: 16px;
-}
+}*/
