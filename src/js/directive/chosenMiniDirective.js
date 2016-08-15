@@ -33,6 +33,8 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                  * 定义
                  ******************************/
 
+                var originData;
+
                 //获取双向绑定的数据
                 var data        = scope.chosenData;
                 var selectedArr = scope.setSelected;
@@ -308,63 +310,18 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 };
 
 
-        
-                //过滤数据
-                function parseChoseData(arr,key){
-                    
-                    var newData = [];
-                    var sonArr;
-                    for(var i=0;i<arr.length;i++){
-                        if(isArray(arr[i])){
-                            sonArr = [];
-                            for(var j=0;j<arr[i].length;j++){
-
-                                if(j==0){
-
-                                    //如果类别符合搜索，则列出全部子类
-                                    if(key && arr[i][0].label.indexOf(key)!=-1){
-                                        sonArr = arr[i];
-                                        break;
-                                    }
-
-                                    sonArr.push(arr[i][j]);
-                                }else{
-                                    var myData = arr[i][j];
-                                    var label = myData.label;
-                                    if(key && label.indexOf(key)!=-1){
-                                        l('111')
-                                        sonArr.push(arr[i][j]);
-                                    }
-                                }
-
-                            }
-                            if(sonArr.length>1){
-                                newData.push(sonArr);
-                            }
-                            
-                        }else{
-                            var myData = arr[i];
-                            var label = myData.label;
-                            if(key && label.indexOf(key)!=-1){
-                                newData.push(arr[i]);
-                            }
-                        }
-                    }
-
-                    return newData;
-
+                //根据关键词过滤数据
+                function filterData(value,arr){
+                    l(data)
+                    return data;
                 }
 
                 //搜索
                 scope.inputChange = function(){
                     var v = scope.searchCon;
-                    if(v!=''){
-                        var newData = parseChoseData(data,v);
-                        randerList(newData);
-                    }else{
-                        var newData = data;
-                        randerList(newData);
-                    }
+                    var cloneData = angular.copy(scope.chosenData);
+                    var newData = filterData(v,cloneData);
+                    scope.chosenData = newData;
                 }
 
 

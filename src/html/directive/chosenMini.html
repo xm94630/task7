@@ -4,14 +4,12 @@
 
 
 	<div class="downBox" id="downBox" ng-show='showList'>
+
 		<div class="searchBox">
 			<input type="text" class="searchCon" ng-model="searchCon"placeholder="搜索" ng-change="inputChange()" ng-focus="xxx">
 		</div>
 
-
-
 		<ul class="conList" id="conList">
-
 			<li ng-repeat="data in chosenData" ng-class="{'active':false}" label="{{data.label}}" value="{{data.value}}">
 		        <span ng-if="!isArray(data)">{{data.label}}</span>
 		        <ul ng-if="isArray(data)">
@@ -20,13 +18,10 @@
 		        	</li>
 		        </ul>
 			</li>
-
 		</ul>
 
-
-
-
 	</div>
+
 </div>
 
 
