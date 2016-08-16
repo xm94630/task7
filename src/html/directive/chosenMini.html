@@ -3,17 +3,17 @@
 	<div class="conBoxMulti" id="conBoxMulti" ng-show ="showConBoxMulti" ng-click="showDownBox($event)"></div>
 
 
-	<div class="downBox" id="downBox" ng-show='showList'>
+	<div class="downBox" ng-show='showList'>
 
 		<div class="searchBox">
 			<input type="text" class="searchCon" ng-model="searchCon"placeholder="搜索" ng-change="inputChange()" ng-focus="xxx">
 		</div>
 
-		<ul class="conList" id="conList">
-			<li ng-repeat="data in chosenData" ng-class="{'active':data.active}" label="{{data.label}}" value="{{data.value}}" ng-click="listClick($event)">
+		<ul class="conList">
+			<li ng-repeat="data in chosenData" label="{{data.label}}" value="{{data.value}}" ng-click="listClick($event)" ng-class="{'active':data.active,'disabled':data.disabled,'forbid':data.value==undefined||data.disabled}">
 		        <span ng-if="!isArray(data)">{{data.label}}</span>
 		        <ul ng-if="isArray(data)">
-		        	<li ng-repeat="x in data" label="{{x.label}}" value="{{x.value}}" ng-class="{'active':x.active}">
+		        	<li ng-repeat="x in data" label="{{x.label}}" value="{{x.value}}" ng-class="{'active':x.active,'disabled':x.disabled,'forbid':x.value==undefined||x.disabled}">
 		        		<span>{{x.label}}<span>
 		        	</li>
 		        </ul>

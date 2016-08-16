@@ -18,11 +18,11 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 	//这部分数据是传递给指令用的，用来作为指令的参数
 	$scope.chosendata2 = {
 		data:[{
+			label:"请选择",
+			disabled:true
+		},{
 			label:"孙悟空",
 			value: "0"
-		},{
-			label:"孙大大",
-			value: "99"
 		},{
 			label:"太阳神",
 			value: "1"

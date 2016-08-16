@@ -372,9 +372,16 @@ body{
 .chosenBox .conBox{
   width:100px;
   height:30px;
-  background:red;
+  background:#fff;
+  line-height: 30px;
+  text-indent: 1em;
 }
 .chosenBox .downBox{
+  max-height:250px;
+  overflow: auto;
+  position:absolute;
+  top:32px;
+  border:solid 1px #aaa;
 }
 .chosenBox .conList{
 }
@@ -387,12 +394,14 @@ body{
   border-bottom: solid 1px #eee;
 }
 .chosenBox .conList li.active{
-  background: #f6f6f6;
+  background: #eee;
 }
-.chosenBox .conList li.disable{
+.chosenBox .conList li.disabled{
   color:#ccc;
+  cursor: default;
 }
-.chosenBox .conList li.disable:hover{
+.chosenBox .conList li.disabled:hover,
+.chosenBox .conList li.forbid:hover{
   background:#fff;
 }
 .chosenBox .conList li:hover{
@@ -404,6 +413,9 @@ body{
   font-weight: bold;
   font-style:italic;
 }
+.chosenBox .conList li ul li:nth-child(1):hover{
+  background: #fff;
+}
 .chosenBox .conList li ul li{
   text-indent: 3em;
 }
@@ -411,7 +423,18 @@ body{
   border-bottom: none;
 }
 
-
+.chosenBox .searchCon{
+  width:100%;
+  box-sizing:border-box; 
+  -moz-box-sizing:border-box; 
+  outline: none;
+  border:none;
+  border-bottom:solid 1px #aaa;
+  text-indent: 1em;
+  height:33px;
+  line-height: 33px;
+  font-family: "MicrosoftYaHei","黑体",Arial,Helvetica,sans-serif,"宋体";
+}
 
 
 

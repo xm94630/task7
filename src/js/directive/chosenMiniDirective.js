@@ -41,6 +41,8 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 var selectedArr = scope.setSelected;
                 var changeFun   = scope.changeFunction;*/
 
+
+
                 //自定义函数
                 var isArray = Array.isArray || function(obj){
                     return Object.prototype.toString.call(obj) == '[object Array]';
@@ -90,6 +92,14 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                  * 初始配置
                  ******************************/
 
+                 //默认选中
+                 var defaultValue = scope.setSelected[0];
+                 l(defaultValue)
+                 clearActiveAttribute();
+                 var defaultLabel= addAttributeByValue(defaultValue);
+                 scope.chosenData = cloneData;
+                 scope.myChosen = defaultLabel;
+
                 //获取插件的配置参数
                 scope.chosenSearch = !attrs['isHaveSearch'];
                 scope.isMulit = (attrs['isMulit']&&attrs['isMulit']!='false') || false;
@@ -113,10 +123,11 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 scope.showDownBox = function(e){
                     //var ele = angular.element(e.target);
                     scope.showList = true;
+                    e.stopPropagation();
                 }
 
                 //搜索,根据关键词过滤数据
-                scope.inputChange = function(){
+                scope.inputChange = function(e){
 
                     var newArr = [];
                     var list;
@@ -192,13 +203,13 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                             for(var j=0;j<cloneData[i].length;j++){
                                 if(cloneData[i][j].value == v){
                                     cloneData[i][j].active = true;
-                                    break;
+                                    return cloneData[i][j].label;
                                 }
                             }
                         }else{
                             if(cloneData[i].value == v){
                                 cloneData[i].active = true;
-                                break;
+                                return cloneData[i].label;
                             }
                         }
                     }
@@ -221,6 +232,11 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     var value = '';
                     var label = '';
                     var ele = angular.element(e.target);
+
+                    if(ele.hasClass('forbid')){
+                        return;
+                    }
+
                     if(ele[0].tagName=='LI'){
                         value = trim(ele.attr('value'));
                         label = trim(ele.attr('label'));
@@ -244,10 +260,20 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     //回调
                     scope.changeFunction(label,value,scope.setSelected);
 
-
+                    e.stopPropagation();
                 }
 
 
+                angular.element(document.querySelector('.downBox')).bind('click',function(e){
+                    e.stopPropagation();
+                })
+
+                angular.element(document.getElementsByTagName('body')).bind('click',function(e){
+                    scope.$apply(function(){
+                        scope.showList = false;
+                    });
+                    
+                })
 
 
 
