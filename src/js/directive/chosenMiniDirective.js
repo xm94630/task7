@@ -233,14 +233,17 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     var label = '';
                     var ele = angular.element(e.target);
 
-                    if(ele.hasClass('forbid')){
-                        return;
-                    }
 
                     if(ele[0].tagName=='LI'){
+                        if(ele.hasClass('forbid')){
+                            return;
+                        }
                         value = trim(ele.attr('value'));
                         label = trim(ele.attr('label'));
                     }else{
+                        if(ele.parent().hasClass('forbid')){
+                            return;
+                        }
                         value = trim(ele.parent().attr('value'));
                         label = trim(ele.parent().attr('label'));
                     }
