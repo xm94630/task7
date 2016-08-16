@@ -21,6 +21,9 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 			label:"孙悟空",
 			value: "0"
 		},{
+			label:"孙大大",
+			value: "0"
+		},{
 			label:"太阳神",
 			value: "1"
 		},[

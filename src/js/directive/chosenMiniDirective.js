@@ -33,7 +33,8 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                  * 定义
                  ******************************/
 
-                var originData;
+                //用来备份数据
+                var cloneData = angular.copy(scope.chosenData);
 
                 //获取双向绑定的数据
                 var data        = scope.chosenData;
@@ -45,6 +46,11 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     return Object.prototype.toString.call(obj) == '[object Array]';
                 }
                 scope.isArray = isArray;
+
+                //字符串去前
+                function trim(text){
+                    return text.replace(/(^\s*)|(\s*$)/g,'');
+                }
                 
                 function contains(arr, obj) {
                   var i = arr.length;
@@ -310,19 +316,79 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 };
 
 
-                //根据关键词过滤数据
-                function filterData(value,arr){
-                    l(data)
-                    return data;
-                }
-
-                //搜索
+                //搜索,根据关键词过滤数据
                 scope.inputChange = function(){
-                    var v = scope.searchCon;
-                    var cloneData = angular.copy(scope.chosenData);
-                    var newData = filterData(v,cloneData);
-                    scope.chosenData = newData;
-                }
+
+                    var newArr = [];
+                    var list;
+                    var label;
+                    var cloneData2;
+
+                    //获取搜索值
+                    var v = trim(scope.searchCon);
+
+                    //对于空字符串，使用“克隆数据”
+                    if(v==''){
+                        scope.chosenData = cloneData;
+                        return;
+                    }
+
+                    //对于非空的搜索，再次对“克隆数据”进行克隆
+                    cloneData2 = angular.copy(cloneData);
+                    for(var i=0;i<cloneData2.length;i++){
+
+                        list = cloneData[i];
+
+                        //该项不为数组的时候
+                        if(!isArray(list)){
+
+                            if(list.label.indexOf(v)!=-1){
+                                newArr.push(list);
+                            }
+
+                        //该项为数组的时候
+                        }else{
+                            
+                            //空数组则不处理
+                            if(list.length==0){
+                                break;
+                            }
+
+                            //构建新的子数据，添加第一个作为标题元素
+                            var sonArr = [list[0]];
+
+                            for(var j=0;j<list.length;j++){
+
+                                //如果标题中就有关键词，把该子类全部添加上，跳出循环
+                                if(list[0].label.indexOf(v)!=-1){
+                                    newArr.push(list);
+                                    break;
+
+                                //若不是标题，那么对子类循环判断，只有满足条件的添加
+                                }else{
+                                    if(list[j].label.indexOf(v)!=-1){
+                                        sonArr.push(list[j]);
+                                    }
+                                }
+
+                            }
+
+                            //子级别至少有1个符合搜索的条件（因为标题就占据一行）
+                            if(sonArr.length>1){
+                                newArr.push(sonArr);
+                            }
+
+                        }
+
+                    }
+                    scope.chosenData = newArr;
+
+                };
+
+
+
+
+
 
 
             };
