@@ -22,7 +22,7 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 			value: "0"
 		},{
 			label:"孙大大",
-			value: "0"
+			value: "99"
 		},{
 			label:"太阳神",
 			value: "1"
@@ -60,7 +60,27 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 			}
 		]],
 		selected:['3'],
-		change:function(label,value){}
+		change:function(label,value,selected){
+			//console.log('我是回调');
+			//l(label)
+			//l(value)
+			//l(selected)
+		}
+	}
+
+
+
+	$scope.chosendata3 = {
+		data:[{
+			label:"大姐姐",
+			value: "0"
+		},{
+			label:"大妹妹",
+			value: "1"
+		}],
+		selected:['0'],
+		change:function(label,value,selected){
+		}
 	}
 
 

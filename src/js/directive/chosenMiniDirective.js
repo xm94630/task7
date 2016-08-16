@@ -37,9 +37,9 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 var cloneData = angular.copy(scope.chosenData);
 
                 //获取双向绑定的数据
-                var data        = scope.chosenData;
+                /*var data        = scope.chosenData;
                 var selectedArr = scope.setSelected;
-                var changeFun   = scope.changeFunction;
+                var changeFun   = scope.changeFunction;*/
 
                 //自定义函数
                 var isArray = Array.isArray || function(obj){
@@ -104,16 +104,15 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 }
                 
                 //默认下拉为隐藏
-                scope.showList = true;
+                scope.showList = false;
                 
                 //默认搜索内容
                 scope.searchCon = '';
                 
 
                 scope.showDownBox = function(e){
-                    l(e)
-                    var ele = angular.element(e.target);
-                    l(123123123)
+                    //var ele = angular.element(e.target);
+                    scope.showList = true;
                 }
 
                 //搜索,根据关键词过滤数据
@@ -185,16 +184,66 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                 };
 
+
+                //通过value值来为指定对象添加属性active为true
+                function addAttributeByValue(v){
+                    for(var i=0;i<cloneData.length;i++){
+                        if(isArray(cloneData[i])){
+                            for(var j=0;j<cloneData[i].length;j++){
+                                if(cloneData[i][j].value == v){
+                                    cloneData[i][j].active = true;
+                                    break;
+                                }
+                            }
+                        }else{
+                            if(cloneData[i].value == v){
+                                cloneData[i].active = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                function clearActiveAttribute(){
+                    for(var i=0;i<cloneData.length;i++){
+                        if(isArray(cloneData[i])){
+                            for(var j=0;j<cloneData[i].length;j++){
+                                cloneData[i][j].active = false;
+                            }
+                        }else{
+                            cloneData[i].active = false;
+                        }
+                    }
+                }
+
                 //事件
                 scope.listClick = function(e){
+                    var value = '';
+                    var label = '';
                     var ele = angular.element(e.target);
                     if(ele[0].tagName=='LI'){
-                        l(trim(ele.attr('value')))
-                        l(trim(ele.attr('label')))
+                        value = trim(ele.attr('value'));
+                        label = trim(ele.attr('label'));
                     }else{
-                        l(trim(ele.parent().attr('value')))
-                        l(trim(ele.parent().attr('label')))
+                        value = trim(ele.parent().attr('value'));
+                        label = trim(ele.parent().attr('label'));
                     }
+
+                    clearActiveAttribute();
+                    addAttributeByValue(value);
+
+                    scope.myChosen = label;
+                    scope.showList = false;
+                    scope.chosenData = cloneData;
+                    scope.searchCon = '';
+
+
+                    //选中
+                    scope.setSelected = [value];
+
+                    //回调
+                    scope.changeFunction(label,value,scope.setSelected);
+
 
                 }
 

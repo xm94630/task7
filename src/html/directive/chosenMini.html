@@ -1,5 +1,5 @@
 <div class="chosenBox">
-	<div class="conBox" id="conBox" ng-show ="showConBox" ng-click="showDownBox($event)"><span>xx</span>{{myChosen}}</div>
+	<div class="conBox" id="conBox" ng-show ="showConBox" ng-click="showDownBox($event)">{{myChosen}}</div>
 	<div class="conBoxMulti" id="conBoxMulti" ng-show ="showConBoxMulti" ng-click="showDownBox($event)"></div>
 
 
@@ -13,7 +13,7 @@
 			<li ng-repeat="data in chosenData" ng-class="{'active':data.active}" label="{{data.label}}" value="{{data.value}}" ng-click="listClick($event)">
 		        <span ng-if="!isArray(data)">{{data.label}}</span>
 		        <ul ng-if="isArray(data)">
-		        	<li ng-repeat="x in data" label="{{x.label}}" value="{{x.value}}">
+		        	<li ng-repeat="x in data" label="{{x.label}}" value="{{x.value}}" ng-class="{'active':x.active}">
 		        		<span>{{x.label}}<span>
 		        	</li>
 		        </ul>
