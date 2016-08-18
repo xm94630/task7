@@ -367,7 +367,9 @@ body{
 .chosenBox{
   position:relative;
   font-size: 12px;
-  color:#666;
+  color:#333;
+  display: inline-block;
+  vertical-align: top;
 }
 .chosenBox .conBox{
   width:100px;
@@ -376,12 +378,43 @@ body{
   line-height: 30px;
   text-indent: 1em;
 }
+.chosenBox .conBoxMulti{
+  min-width: 150px;
+  max-width: 300px;
+  min-height:30px;
+  background:#fff;
+  line-height: 30px;
+  padding:0 5px;
+  cursor: default;
+}
+.chosenBox .conBoxMulti span{
+  background:#61B7CF;
+  color:#025167;
+  padding: 2px 5px; 
+  border-radius: 2px;
+  margin-right: 5px;
+  display: inline-block;
+  height:16px;
+  line-height: 16px;
+}
+.chosenBox .conBoxMulti span:last-child{
+  margin-right: 0px;
+}
+.chosenBox .conBoxMulti span b{
+  cursor: pointer;
+  color:#fff;
+}
 .chosenBox .downBox{
-  max-height:250px;
+  min-width:250px;
+  max-height:320px;
   overflow: auto;
   position:absolute;
   top:32px;
-  border:solid 1px #aaa;
+    
+  border: 1px solid #cacaca;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
+
+  z-index: 99;
 }
 .chosenBox .conList{
 }
@@ -391,10 +424,11 @@ body{
   background: #fff;
   width:100%;
   line-height: 32px;
-  border-bottom: solid 1px #eee;
+  /*border-bottom: solid 1px #eee;*/
 }
 .chosenBox .conList li.active{
   background: #eee;
+  cursor: default;
 }
 .chosenBox .conList li.disabled{
   color:#ccc;
@@ -405,7 +439,7 @@ body{
   background:#fff;
 }
 .chosenBox .conList li:hover{
-  background: #DDF0ED;
+  background: #eee;
 }
 .chosenBox .conList li ul li:nth-child(1){
   text-indent: 1em;
@@ -429,7 +463,7 @@ body{
   -moz-box-sizing:border-box; 
   outline: none;
   border:none;
-  border-bottom:solid 1px #aaa;
+  border-bottom:solid 1px #cacaca;
   text-indent: 1em;
   height:33px;
   line-height: 33px;

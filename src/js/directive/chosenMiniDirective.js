@@ -6,7 +6,8 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
         scope: {
     		'chosenData'    : '=',
     	    'setSelected'   : '=',
-    	    'changeFunction': '='
+    	    'changeFunction': '=',
+            'isHaveSearch': '='
         },
 
         //这个是获取模块，在link的第四个参数中使用，用来质量之间的通信，这个是指的就是那个指令的控制器内容
@@ -41,7 +42,9 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 var selectedArr = scope.setSelected;
                 var changeFun   = scope.changeFunction;*/
 
-
+                //这个不需在这里控制
+                //scope.isHaveSearch = false;
+                
 
                 //自定义函数
                 var isArray = Array.isArray || function(obj){
@@ -52,6 +55,32 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 function isString(obj){
                     return Object.prototype.toString.call(obj) == '[object String]';
                 }
+
+                /*function removeFromArray (v,arr) {
+                    var index = arr.indexOf(v); 
+                    if (index > -1) { arr.splice(index, 1); } 
+                };*/
+
+                scope.mutiLabels=[];
+
+                //l(scope.mutiLabels)
+                for(var i=0;i<scope.setSelected.length;i++){
+                    scope.mutiLabels.push(getObjByValue(scope.chosenData,scope.setSelected[i]));
+                }
+                //l(scope.mutiLabels)
+
+                scope.mutiLabelClick = function(e){
+                    var value = angular.element(e.target).parent().attr('value');
+                    removeAttributeByValue(value);
+
+                    for(var i=0;i<scope.mutiLabels.length;i++){
+                        if(scope.mutiLabels[i].value==value){
+                            scope.mutiLabels.splice(i, 1);
+                        }
+                    }
+                    e.stopPropagation();
+                }
+
 
                 //字符串去前
                 function trim(text){
@@ -69,18 +98,18 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                   return false;
                 }
                 
-                //通过value值获取name 或者值
-                function getLabelOrValue(v,key){
+                //通过value值获取对象
+                function getObjByValue(data,v){
                     for(var i=0;i<data.length;i++){
                         if(isArray(data[i])){
-                            for(var j=0;j<data.length;j++){
+                            for(var j=0;j<data[i].length;j++){
                                if(data[i][j].value == v){
-                                   return data[i][j][key];
+                                   return data[i][j];
                                }
                             }
                         }else{
                             if(data[i].value == v){
-                                return data[i][key];
+                                return data[i];
                             }
                         }
                     }
@@ -91,19 +120,33 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 /******************************
                  * 初始配置
                  ******************************/
-
-                 //默认选中
-                 var defaultValue = scope.setSelected[0];
-                 l(defaultValue)
-                 clearActiveAttribute();
-                 var defaultLabel= addAttributeByValue(defaultValue);
-                 scope.chosenData = cloneData;
-                 scope.myChosen = defaultLabel;
-
-                //获取插件的配置参数
+              //获取插件的配置参数
                 scope.chosenSearch = !attrs['isHaveSearch'];
                 scope.isMulit = (attrs['isMulit']&&attrs['isMulit']!='false') || false;
 
+   
+
+                 //默认选中
+                 if(scope.isMulit){
+                    
+                    //给数据中添加上active
+                    for(var i=0;i<scope.setSelected.length;i++){
+                        v = scope.setSelected[i];
+                        addAttributeByValue(v);
+                    }
+                    
+                 }else{
+                    var defaultValue = scope.setSelected[0];
+                    clearActiveAttribute();
+                    var defaultLabel= addAttributeByValue(defaultValue);
+                 }
+
+                 
+
+                 scope.chosenData = cloneData;
+                 scope.myChosen = defaultLabel;
+
+  
                 //多选和单选的框框UI不一样
                 if(scope.isMulit){
                     scope.showConBox = false;
@@ -122,8 +165,9 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
                 scope.showDownBox = function(e){
                     //var ele = angular.element(e.target);
-                    scope.showList = true;
-                    e.stopPropagation();
+                    scope.showList = !scope.showList;
+                    //这句话不写很关键！！其实我是需要他冒泡到body的
+                    //e.stopPropagation();
                 }
 
                 //搜索,根据关键词过滤数据
@@ -214,6 +258,24 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                         }
                     }
                 }
+                //通过value值来为指定对象添加属性active为true
+                function removeAttributeByValue(v){
+                    for(var i=0;i<cloneData.length;i++){
+                        if(isArray(cloneData[i])){
+                            for(var j=0;j<cloneData[i].length;j++){
+                                if(cloneData[i][j].value == v){
+                                    cloneData[i][j].active = false;
+                                    return cloneData[i][j].label;
+                                }
+                            }
+                        }else{
+                            if(cloneData[i].value == v){
+                                cloneData[i].active = false;
+                                return cloneData[i].label;
+                            }
+                        }
+                    }
+                }
 
                 function clearActiveAttribute(){
                     for(var i=0;i<cloneData.length;i++){
@@ -235,20 +297,27 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
 
                     if(ele[0].tagName=='LI'){
-                        if(ele.hasClass('forbid')){
-                            return;
-                        }
+                        /*if(scope.isMulit){
+                         if(ele.hasClass('active')){return;}  
+                        }*/
+                        if(ele.hasClass('forbid')){return;}
                         value = trim(ele.attr('value'));
                         label = trim(ele.attr('label'));
                     }else{
-                        if(ele.parent().hasClass('forbid')){
-                            return;
-                        }
+                        /*if(scope.isMulit){
+                         if(ele.hasClass('active')){return;}  
+                        }*/
+                        if(ele.parent().hasClass('forbid')){return;}
                         value = trim(ele.parent().attr('value'));
                         label = trim(ele.parent().attr('label'));
                     }
 
-                    clearActiveAttribute();
+                    if(scope.isMulit){
+                           
+                    }else{
+                       clearActiveAttribute();
+                    }
+
                     addAttributeByValue(value);
 
                     scope.myChosen = label;
@@ -257,8 +326,17 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     scope.searchCon = '';
 
 
-                    //选中
-                    scope.setSelected = [value];
+                    if(scope.isMulit){
+                        //多选的
+                        if(ele.hasClass('active')){
+                        }else{  
+                            scope.mutiLabels.push(getObjByValue(scope.chosenData,value));
+                        }
+                    }else{
+                        //选中
+                        scope.setSelected = [value];
+                    }
+
 
                     //回调
                     scope.changeFunction(label,value,scope.setSelected);
@@ -271,13 +349,40 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     e.stopPropagation();
                 })
 
-                angular.element(document.getElementsByTagName('body')).bind('click',function(e){
+                //这种写法是不好的，改成下面的方法就很赞
+                /*angular.element(document.getElementsByTagName('body')).bind('click',function(e){
                     scope.$apply(function(){
                         scope.showList = false;
-                    });
-                    
-                })
+                    });                    
+                })*/
 
+                //这个写法借鉴chosen的
+                //这样子写的目的就是：我在有多个实例的时候，点击这个的时候，那个会隐藏！
+                var _body = angular.element(document.getElementsByTagName('body'));
+                scope.$watch('showList', function() {
+                    if (scope.showList == true) {
+                        $timeout(function() {
+                            _body.bind('click', function(e) {
+                                var _parent = angular.element(e.target);
+                                for (var i = 0; i < 5; i++) {
+                                    if (_parent.parent().length == 0) {
+                                        break
+                                    }
+                                    if (element[0] == _parent.parent()[0]) {
+                                        return false
+                                    } else {
+                                        _parent = _parent.parent();
+                                    }
+                                }
+                                scope.$apply(function() {
+                                    scope.showList = false;
+                                });
+                            });
+                        }, 10);
+                    } else {
+                        _body.unbind('click');
+                    }
+                });
 
 
 

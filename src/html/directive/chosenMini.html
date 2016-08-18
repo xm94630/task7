@@ -1,12 +1,16 @@
 <div class="chosenBox">
+
+
 	<div class="conBox" id="conBox" ng-show ="showConBox" ng-click="showDownBox($event)">{{myChosen}}</div>
-	<div class="conBoxMulti" id="conBoxMulti" ng-show ="showConBoxMulti" ng-click="showDownBox($event)"></div>
+	<div class="conBoxMulti" id="conBoxMulti" ng-show ="showConBoxMulti" ng-click="showDownBox($event)">
+		<span ng-repeat="data in mutiLabels" value="{{data.value}}">{{data.label}}&nbsp;&nbsp;<b ng-click="mutiLabelClick($event)">X</b></span> 
+	</div>
 
 
 	<div class="downBox" ng-show='showList'>
 
 		<div class="searchBox">
-			<input type="text" class="searchCon" ng-model="searchCon"placeholder="搜索" ng-change="inputChange()" ng-focus="xxx">
+			<input type="text" class="searchCon" ng-model="searchCon"placeholder="搜索" ng-change="inputChange()" ng-focus="xxx" ng-show="isHaveSearch">
 		</div>
 
 		<ul class="conList">

@@ -60,6 +60,7 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 			}
 		]],
 		selected:['3'],
+		haveSearch:true,
 		change:function(label,value,selected){
 			//console.log('我是回调');
 			//l(label)
@@ -72,13 +73,44 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 
 	$scope.chosendata3 = {
 		data:[{
-			label:"大姐姐",
-			value: "0"
-		},{
-			label:"大妹妹",
-			value: "1"
-		}],
-		selected:['0'],
+				label:"小明",
+				value:"0"
+			},[
+			{
+				label:"同学"
+			},{
+				label:"张三",
+				value: "1"
+			}
+		],[
+			{
+				label:"邻居"
+			},{
+				label:"老王的孩子",
+				value: "2"
+			},{
+				label:"老李",
+				value: "3"
+			},{
+				label:"老爷儿",
+				value: "4"
+			}
+		],[
+			{
+				label:"同事"
+			},{
+				label:"李小四",
+				value: "5"
+			},{
+				label:"周三",
+				value: "6"
+			},{
+				label:"小王八蛋",
+				value: "7"
+			}
+		]],
+		selected:['1','6'],
+		haveSearch:true,
 		change:function(label,value,selected){
 		}
 	}
