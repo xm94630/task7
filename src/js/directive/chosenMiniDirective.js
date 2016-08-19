@@ -46,7 +46,12 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 //这个不需在这里控制
                 //scope.isHaveSearch = false;
                 
-
+                function autoTop(){
+                    l(123)
+                    angular.element(document.querySelector('.downBox')[0]).css('top',100);
+                }
+                autoTop()
+                
                 //自定义函数
                 var isArray = Array.isArray || function(obj){
                     return Object.prototype.toString.call(obj) == '[object Array]';
@@ -353,6 +358,8 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                         //选中
                         scope.setSelected = [value];
                     }
+
+                    autoTop();
 
 
                     //回调
