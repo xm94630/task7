@@ -15,6 +15,10 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 	    span  : 12
 	};
 
+	$scope.xxx ='-';
+	$scope.xxx2 ='-';
+	$scope.xxx3 ='-';
+
 	//这部分数据是传递给指令用的，用来作为指令的参数
 	$scope.chosendata2 = {
 		data:[{
@@ -62,10 +66,14 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 		selected:['3'],
 		haveSearch:true,
 		change:function(label,value,selected){
-			//console.log('我是回调');
-			//l(label)
-			//l(value)
-			//l(selected)
+			$scope.xxx  = selected;
+			$scope.xxx2 = label;
+			$scope.xxx3 = value;
+		},
+		deleteMultiLabel:function(label,value,selected){
+			$scope.xxx  = selected;
+			$scope.xxx2 = label;
+			$scope.xxx3 = value;
 		}
 	}
 
@@ -112,6 +120,14 @@ appControllers.controller("homeCtrl",function($scope,XmService){
 		selected:['1','6'],
 		haveSearch:true,
 		change:function(label,value,selected){
+			$scope.xxx  = selected;
+			$scope.xxx2 = label;
+			$scope.xxx3 = value;
+		},
+		deleteMultiLabel:function(label,value,selected){
+			$scope.xxx  = selected;
+			$scope.xxx2 = label;
+			$scope.xxx3 = value;
 		}
 	}
 

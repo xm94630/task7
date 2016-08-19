@@ -342,8 +342,19 @@ body{
   width:500px;
   text-align: left;
   margin:0 auto;
-  background: #666;
+  background: #ddd;
   padding:10px;
+  color:#333;
+  margin-bottom: 10px;
+}
+.colorBox{
+  width:500px;
+  text-align: left;
+  margin:0 auto;
+  padding:10px;
+  color:#333;
+  margin-bottom: 10px;
+  border: solid 1px #ccc;
 }
 .myOption{
 

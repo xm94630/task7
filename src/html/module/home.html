@@ -4,12 +4,63 @@
 
 <!-- <div chosen-directive chosen-data="xxx.item1.data" change-function="xxx.item1.change" set-selected="xxx.item1.selected" is-have-search="true" class="myOption" is-mulit="true"></div> -->
 
-<div class="grayBox">
+<div class="grayBox LH30">
 	<!-- <div date-pig-directive></div> -->
 	<!-- <div chosen-mini-directive chosen-data="chosendata.data" change-function="chosendata.change" set-selected="chosendata.selected" is-have-search="true" is-mulit="true" class=""></div> -->
 
-	<div chosen-mini-directive chosen-data="chosendata2.data" change-function="chosendata2.change" set-selected="chosendata2.selected" is-have-search="chosendata2.haveSearch"  class=""></div>
+	单选：<div chosen-mini-directive chosen-data="chosendata2.data" change-function="chosendata2.change" set-selected="chosendata2.selected" is-have-search="chosendata2.haveSearch"  class=""></div>
 
-	<div chosen-mini-directive chosen-data="chosendata3.data" change-function="chosendata3.change" set-selected="chosendata3.selected" is-have-search="chosendata3.haveSearch" is-mulit="true" class=""></div>
+	&nbsp;复选：<div chosen-mini-directive chosen-data="chosendata3.data" change-function="chosendata3.change" set-selected="chosendata3.selected" is-have-search="chosendata3.haveSearch" is-mulit="true" class="" delete-multi-label="chosendata3.deleteMultiLabel"></div>
 
+</div>
+
+<div class="colorBox">
+	<div>chosen选择结果log报告</div>
+	<div>值集合：{{xxx}}</div>
+	<div>操作标签：{{xxx2}}</div>
+	<div>操作值：{{xxx3}}</div>
+</div>
+
+<div class="colorBox">
+	<pre>
+	//使用方法
+	$scope.chosendata3 = {
+		//数据部分，当嵌套对象数组的时候，默认识别为二级
+		data:[{
+				label:"小明",
+				value:"0"
+			},[
+			{
+				label:"同学"
+			},{
+				label:"张三",
+				value: "1"
+			}
+			],[
+				{
+					label:"邻居"
+				},{
+					label:"老王的孩子",
+					value: "2"
+				},{
+					label:"老李",
+					value: "3"
+				},{
+					label:"老爷儿",
+					value: "4"
+				}
+			]
+		],
+		//默认选中
+		selected:['1','6'],
+		//是否有搜索
+		haveSearch:true,
+		change:function(label,value,selected){
+			//选择标签时候的回调
+		},
+		deleteMultiLabel:function(label,value,selected){
+			//针对于复选，删除标签的时候的回调
+		}
+	}
+	</pre>
 </div>

@@ -6,7 +6,8 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
         scope: {
     		'chosenData'    : '=',
     	    'setSelected'   : '=',
-    	    'changeFunction': '=',
+            'changeFunction': '=',
+    	    'deleteMultiLabel': '=',
             'isHaveSearch': '='
         },
 
@@ -61,6 +62,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     if (index > -1) { arr.splice(index, 1); } 
                 };*/
 
+                //多选的标签
                 scope.mutiLabels=[];
 
                 //l(scope.mutiLabels)
@@ -73,11 +75,23 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                     var value = angular.element(e.target).parent().attr('value');
                     removeAttributeByValue(value);
 
+                    var label;
+                    //移除
                     for(var i=0;i<scope.mutiLabels.length;i++){
                         if(scope.mutiLabels[i].value==value){
+                            label = scope.mutiLabels[i].label;
                             scope.mutiLabels.splice(i, 1);
                         }
                     }
+                    //移除
+                    for(var i=0;i<scope.setSelected.length;i++){
+                        if(scope.setSelected[i]==value){
+                            scope.setSelected.splice(i, 1);
+                        }
+                    }
+
+                    scope.deleteMultiLabel(label,value,scope.setSelected);
+
                     e.stopPropagation();
                 }
 
@@ -120,7 +134,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 /******************************
                  * 初始配置
                  ******************************/
-              //获取插件的配置参数
+                //获取插件的配置参数
                 scope.chosenSearch = !attrs['isHaveSearch'];
                 scope.isMulit = (attrs['isMulit']&&attrs['isMulit']!='false') || false;
 
@@ -297,16 +311,18 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
 
 
                     if(ele[0].tagName=='LI'){
-                        /*if(scope.isMulit){
-                         if(ele.hasClass('active')){return;}  
-                        }*/
+                         if(ele.hasClass('active')){
+                            scope.showList = false;
+                            return;
+                         }  
                         if(ele.hasClass('forbid')){return;}
                         value = trim(ele.attr('value'));
                         label = trim(ele.attr('label'));
                     }else{
-                        /*if(scope.isMulit){
-                         if(ele.hasClass('active')){return;}  
-                        }*/
+                         if(ele.parent().hasClass('active')){
+                            scope.showList = false;
+                            return;
+                         }
                         if(ele.parent().hasClass('forbid')){return;}
                         value = trim(ele.parent().attr('value'));
                         label = trim(ele.parent().attr('label'));
@@ -331,6 +347,7 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                         if(ele.hasClass('active')){
                         }else{  
                             scope.mutiLabels.push(getObjByValue(scope.chosenData,value));
+                            scope.setSelected.push(value)
                         }
                     }else{
                         //选中
