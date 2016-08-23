@@ -420,11 +420,8 @@ body{
   max-height:320px;
   overflow: auto;
   position:absolute;
-  top:32px;
-    
   border: 1px solid #cacaca;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
-
   z-index: 99;
 }
 .chosenBox .conList{

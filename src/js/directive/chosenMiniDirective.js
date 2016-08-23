@@ -47,8 +47,12 @@ appDirectives.directive('chosenMiniDirective', function($rootScope,$timeout) {
                 //scope.isHaveSearch = false;
                 
                 function autoTop(){
-                    l(123)
+                    /*l(123)
                     angular.element(document.querySelector('.downBox')[0]).css('top',100);
+*/
+                    /*var height = angular.element(document.getElementById('conBoxMulti')).css('height');
+                    angular.element(document.getElementById('downBox')).css('top',height);*/
+                                   
                 }
                 autoTop()
                 
